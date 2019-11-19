@@ -1,0 +1,15 @@
+# Change GOPATH based on project
+# https://stackoverflow.com/questions/17780754/automatically-defining-gopath-on-a-per-project-basis 
+# keep .gopath file where it is
+# vvv put in ~/.bashrc vvv
+cd () {
+    builtin cd "$@"
+    cdir=$PWD
+    while [ "$cdir" != "/" ]; do
+        if [ -e "$cdir/.gopath" ]; then
+            export GOPATH=$cdir
+            break
+        fi
+        cdir=$(dirname "$cdir")
+    done
+}
