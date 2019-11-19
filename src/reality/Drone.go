@@ -19,11 +19,22 @@ type Payloads struct {
 	payloads map[string]int
 }
 
-// Drone : maintains the orientation and location of a drone
-type Drone struct {
-	X        int
-	Y        int
-	Z        int
+type location struct {
+	x int
+	y int
+	z int
+}
+
+type bearing struct {
+	pitch int
+	yaw   int
+	roll  int
+}
+
+type drone struct {
+	loca     location
+	bear     bearing
+	dtype    int
 	pitch    int
 	yaw      int
 	roll     int
@@ -32,9 +43,9 @@ type Drone struct {
 	maxSpeed int
 }
 
-func droneCreate(x int, y int, z int, _pitch int, _yaw int, _roll int, _team string, _maxSpeed int) Drone {
-	drone := Drone{X: x, Y: y, Z: z, pitch: _pitch, yaw: _yaw, roll: _roll, team: _team, maxSpeed: _maxSpeed}
-	return drone
+func droneCreate(l location, b bearing, droneType int, _team string, _maxSpeed int) drone {
+	newDrone := drone{loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
+	return newDrone
 }
 
 //teamCheck : Checks if team exists
