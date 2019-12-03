@@ -1,8 +1,6 @@
 package main
 
-import (
-	"reality"
-)
+import "Aquafalx/lib/reality"
 
 func main() {
 	var team reality.Team = reality.TeamCreate("Red")
@@ -13,6 +11,6 @@ func main() {
 	//sanity check
 	println("\nTeam: \n", team.Name)
 	println("Bunkers: \n")
-	println(reality.BaseTostring(baseBunker))
+	println(reality.BaseToString(baseBunker))
 
 }
