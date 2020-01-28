@@ -14,17 +14,17 @@ const BaseSAM = 1
 //BaseRADAR : Ground based Radar for unit detection
 const BaseRADAR = 2
 
-//BaseAIRstrip : Used to house and launch aircraft
-const BaseAIRstrip = 3
+//BaseAIRSTRIP : Used to house and launch aircraft
+const BaseAIRSTRIP = 3
 
-//BaseFUELdepot : Used to store Fuel to transport to other bases
-const BaseFUELdepot = 4
+//BaseFUELDEPOT : Used to store Fuel to transport to other bases
+const BaseFUELDEPOT = 4
 
-//BaseAMMOdepot : Used to store ammunitions to transport to other bases
-const BaseAMMOdepot = 5
+//BaseAMMODEPOT : Used to store ammunitions to transport to other bases
+const BaseAMMODEPOT = 5
 
-//BaseTRANSdepot : Used to store land vehicles for transporting resources and offense
-const BaseTRANSdepot = 6
+//BaseTRANSDEPOT : Used to store land vehicles for transporting resources and offense
+const BaseTRANSDEPOT = 6
 
 //BasePORT : Used to store sea vehicles for transporting resources and offense
 const BasePORT = 7
@@ -43,6 +43,43 @@ type Base struct {
 	baseType  int
 	ipAddress string
 	ipPort    int
+}
+
+// Name : returns the name of the base
+func (b Base) Name() string {
+	return b.name
+}
+
+// BaseType : returns the name of the base
+func (b Base) BaseType() string {
+	switch b.baseType {
+	case 0:
+		return "Bunker"
+	case 1:
+		return "SAM"
+	case 2:
+		return "RADAR"
+	case 3:
+		return "Air_Strip"
+	case 4:
+		return "Fuel_Depot"
+	case 5:
+		return "Ammo_Depot"
+	case 6:
+		return "Transport_Depot"
+	case 7:
+		return "Port"
+	default:
+	}
+	return "unknown"
+}
+
+func (b Base) IpAddress() string {
+	return ""
+}
+
+func (b Base) IpPort() int {
+	return 0
 }
 
 //BaseCreate : creates a base
