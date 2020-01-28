@@ -13,15 +13,6 @@ type resource struct {
 	num  int
 }
 
-//Base : Contains the information to connect base to physical computer
-type Base struct {
-	name      string
-	baseType  int
-	ipAddr    string
-	ipPort    int
-	resources []resource
-}
-
 //TeamCreate : creates a new team and assets required
 func TeamCreate(n string) Team {
 	team := Team{Name: n}
