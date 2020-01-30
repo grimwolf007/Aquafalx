@@ -74,12 +74,14 @@ func (b Base) BaseType() string {
 	return "unknown"
 }
 
-func (b Base) IpAddress() string {
-	return ""
+//IPAddress : returns the IP address of the base
+func (b Base) IPAddress() string {
+	return b.ipAddress
 }
 
-func (b Base) IpPort() int {
-	return 0
+//IPPort : returns the IP port of the base main service
+func (b Base) IPPort() int {
+	return b.ipPort
 }
 
 //BaseCreate : creates a base
