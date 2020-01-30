@@ -29,8 +29,8 @@ const BaseTRANSDEPOT = 6
 //BasePORT : Used to store sea vehicles for transporting resources and offense
 const BasePORT = 7
 
-//Building : Contains the information to connect infrastructure to physical computer
-type Building interface {
+//Infrastructure : Contains the information to connect infrastructure to physical computer
+type Infrastructure interface {
 	Name() string
 	BaseType() string
 	IpAddress() string

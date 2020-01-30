@@ -2,19 +2,19 @@ package reality
 
 //Team : Contains all the infrastructure information for each team
 type Team struct {
-	Name        string
+	name        string
 	hq          Base
 	bases       []Base
 	baseCounter []int //uses the constant name -> int relation for index of array
 }
 
-type resource struct {
-	name string
-	num  int
-}
-
 //TeamCreate : creates a new team and assets required
 func TeamCreate(n string) Team {
-	team := Team{Name: n}
-	return team
+	t := Team{name: n}
+	return t
+}
+
+// Name : returns the name of the Team
+func (t Team) Name() string {
+	return t.name
 }
