@@ -34,13 +34,3 @@ func (t *Team) SetHQ(h Base) {
 	t.bases[h.Name()] = h
 
 }
-
-// AddBase : adds a new base to the team roster
-func (t *Team) AddBase(h Base) bool {
-	if _, ok := t.bases[h.Name()]; ok {
-		println("%s is already on $s", h.Name(), t.Name())
-		return false
-	}
-	t.bases[h.Name()] = h
-	return true
-}
