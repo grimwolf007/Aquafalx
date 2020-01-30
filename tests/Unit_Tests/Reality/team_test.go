@@ -7,19 +7,27 @@ import (
 )
 
 func TestTeam(t *testing.T) {
+
 	// Create a team
 	println("Creating Team")
 	var team reality.Team = reality.TeamCreate("Red")
 	if team.Name() != "Red" {
 		t.Errorf("Team name is not Red, instead '%s'", team.Name())
 	}
-	// Add Hq to team
+	println("Base Creation")
 	println("Creating Base HQ")
 	var name string = "Red HQ"
 	var ipaddr string = "127.0.0.1"
 	var ipport int = 4000
 	var basehq reality.Base = reality.BaseCreate(team, name, reality.BaseBUNKER, ipaddr, ipport)
-	println("Adding to Team")
+	println("Creating Test Base")
+	name = "Red Base"
+	ipaddr = "127.0.0.1"
+	ipport = 4000
+	var basered reality.Base = reality.BaseCreate(team, name, reality.BaseBUNKER, ipaddr, ipport)
+
+	// Add Hq to team
+	println("Adding HQ to Team")
 	team.SetHQ(basehq)
 
 	if team.HQ().Name() != "Red HQ" {
@@ -32,6 +40,16 @@ func TestTeam(t *testing.T) {
 	}
 
 	// Add a base to a team
+	println("Adding old base")
+	if team.AddBase(basehq) != false {
+		t.Errorf("Base was added dispite already existing: %s", basehq.Name())
+	}
+
+	println("Adding new base")
+	if team.AddBase(basered) != true {
+		t.Errorf("Base was added dispite already existing: %s", basehq.Name())
+	}
+	// Try to add the same base
 
 	// Add a drone to the team
 

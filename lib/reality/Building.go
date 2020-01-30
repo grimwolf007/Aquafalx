@@ -50,6 +50,11 @@ func (b Base) Name() string {
 	return b.name
 }
 
+// SetName : Changes the name of the base
+func (b *Base) SetName(n string) {
+	b.name = n
+}
+
 // BaseType : returns the name of the base
 func (b Base) BaseType() string {
 	switch b.baseType {
