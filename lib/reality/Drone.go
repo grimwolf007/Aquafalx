@@ -44,6 +44,9 @@ type drone struct {
 }
 
 func droneCreate(l location, b bearing, droneType int, _team string, _maxSpeed int) drone {
+	//check if team exists
+	//if location is nil use default for drone type
+	//if bearing is nill use middle of map
 	newDrone := drone{loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
 	return newDrone
 }
