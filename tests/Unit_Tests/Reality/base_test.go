@@ -32,6 +32,12 @@ func TestBase(t *testing.T) {
 	if base.IPPort() != 4000 {
 		t.Errorf("Base Port is not 4000, instead '%d'", base.IPPort())
 	}
+	// Edit base Name
+	println("Changing Name")
+	base.SetName("testing")
+	if base.Name() != "testing" {
+		t.Errorf("Base name is not testing, instead '%s'", base.Name())
+	}
 	// Is it in the team roster?
 
 	// Is it placed somewhere?

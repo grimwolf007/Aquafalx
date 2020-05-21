@@ -102,6 +102,15 @@ func BaseToString(b Base) string {
 	return str
 }
 
+// SetName : Sets the name of the base, returns true if not empty
+func (b Base) SetName(n string) bool {
+	if n != "" {
+		b.name = n
+		return true
+	}
+	return false
+}
+
 //IPv4Check : Checks if a string is a valid IPv4 address
 func IPv4Check(ipAddress string) bool {
 	testInput := net.ParseIP(ipAddress)

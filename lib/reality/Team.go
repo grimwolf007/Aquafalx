@@ -28,9 +28,14 @@ func (t Team) Bases() map[string]Base {
 	return t.bases
 }
 
-// SetHQ : Sets a base as the Head Quarters
+// SetHQ : Sets a base as the Head Quarters of a team
 func (t *Team) SetHQ(h Base) {
 	t.hq = h
 	t.bases[h.Name()] = h
 
+}
+
+// AddBase : adds a base to a team
+func (t *Team) AddBase(h Base) {
+	t.bases[h.Name()] = h
 }
