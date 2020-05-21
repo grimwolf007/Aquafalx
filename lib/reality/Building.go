@@ -43,6 +43,8 @@ type Base struct {
 	baseType  int
 	ipAddress string
 	ipPort    int
+	xcoord    float32
+	ycoord    float32
 }
 
 // Name : returns the name of the base
