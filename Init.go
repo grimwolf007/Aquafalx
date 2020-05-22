@@ -8,7 +8,11 @@ import (
 func main() {
 	b := BoardCreate("Test1")
 	b.status()
-
+	l := reality.DroneLocationCreate(0, 0, 0)
+	teams := []reality.Team{reality.TeamCreate("Red")}
+	bear := reality.DroneBearingCreate(0, 0, 0)
+	drones := startDrones(10, bear, l, teams[0])
+	print(drones)
 }
 
 //Board : Contains each team
@@ -31,4 +35,12 @@ func (b Board) status() {
 	t := time.Now()
 	elapsed := t.Sub(b.TimeStart)
 	println(elapsed)
+}
+
+func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []reality.Drone {
+	ds := make([]reality.Drone, c)
+	for i := 0; i < c; i++ {
+		ds = append(ds, reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20))
+	}
+	return ds
 }

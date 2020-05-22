@@ -19,21 +19,36 @@ type Payloads struct {
 	payloads map[string]int
 }
 
-type location struct {
+// DroneLocation : maintains drone coordinates
+type DroneLocation struct {
 	x int
 	y int
 	z int
 }
 
-type bearing struct {
+// DroneLocationCreate : maintains drone coordinates
+func DroneLocationCreate(_x int, _y int, _z int) DroneLocation {
+	d := DroneLocation{x: _x, y: _y, z: _z}
+	return d
+}
+
+// DroneBearing : Orientation of drone
+type DroneBearing struct {
 	pitch int
 	yaw   int
 	roll  int
 }
 
-type drone struct {
-	loca     location
-	bear     bearing
+// DroneBearingCreate : Constructor of the bearing struct
+func DroneBearingCreate(p int, y int, r int) DroneBearing {
+	b := DroneBearing{pitch: p, yaw: y, roll: r}
+	return b
+}
+
+// Drone : structure to hold data for drones
+type Drone struct {
+	loca     DroneLocation
+	bear     DroneBearing
 	dtype    int
 	pitch    int
 	yaw      int
@@ -43,18 +58,16 @@ type drone struct {
 	maxSpeed int
 }
 
-func droneCreate(l location, b bearing, droneType int, _team string, _maxSpeed int) drone {
+//DroneCreate : Creates a new Drone
+func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _maxSpeed int) Drone {
 	//check if team exists
 	//if location is nil use default for drone type
 	//if bearing is nill use middle of map
-	newDrone := drone{loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
+	newDrone := Drone{loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
 	return newDrone
 }
 
 //teamCheck : Checks if team exists
 func teamCheck() {}
-
-//DroneCreate : Creates a new Drone
-func DroneCreate(dronetype int) {}
 
 //PayloadMapCreate : Creates a payload map based on Drone type adn
