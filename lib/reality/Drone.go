@@ -16,11 +16,17 @@ const DRONEHybrid = 3
 
 var droneIDCount = 0
 
-// Payloads : maintains what payloads are on the Drone at a given time
-type Payloads struct {
+// Cargo : maintains what are on the Drone at a given time
+type Cargo struct {
 	radar    int
-	fueltank map[string]int
+	fueltank int
 	payloads map[string]int
+}
+
+// CargoCreate : maintains drone cargo
+func CargoCreate(r int, f int, p map[string]int) Cargo {
+	c := Cargo{radar: r, fueltank: f, payloads: p}
+	return c
 }
 
 // DroneLocation : maintains drone coordinates
@@ -59,7 +65,7 @@ type Drone struct {
 	pitch    int
 	yaw      int
 	roll     int
-	payloads Payloads
+	cargo    Cargo
 	maxSpeed int
 }
 
@@ -73,10 +79,7 @@ func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _
 	return newDrone
 }
 
-//teamCheck : Checks if team exists
-func teamCheck() {}
-
-//PayloadMapCreate : Creates a payload map based on Drone type adn
+//PayloadMapCreate : Creates a payload map based on Drone type
 
 //String : displays information about a drone object
 func (d Drone) String() string {

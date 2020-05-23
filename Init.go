@@ -16,7 +16,7 @@ func main() {
 		println(drones[i].String())
 	}
 
-	b.status()
+	b.Status()
 }
 
 //Board : Contains each team
@@ -34,7 +34,8 @@ func BoardCreate(n string) Board {
 	return b
 }
 
-func (b Board) status() {
+//Status : returns the time since the board was created
+func (b Board) Status() {
 	t := time.Now()
 	elapsed := t.Sub(b.TimeStart)
 	println(elapsed)
