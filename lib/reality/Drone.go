@@ -79,7 +79,8 @@ func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _
 	return newDrone
 }
 
-//PayloadMapCreate : Creates a payload map based on Drone type
+//PayloadMapCreate : Creates a payload map based on Drone type [WIP]
+func PayloadMapCreate() {}
 
 //String : displays information about a drone object
 func (d Drone) String() string {

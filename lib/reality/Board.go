@@ -26,4 +26,5 @@ func (b Board) Status() {
 	println(elapsed)
 }
 
+//teamCheck : checks if a team exists
 func teamCheck() {}

@@ -41,6 +41,13 @@ func (b Board) Status() {
 	println(elapsed)
 }
 
+//startTeams : creates the teams for the scenario
+func startTeams() {}
+
+//buildInfrastructure : creates the infrastructure for the scenario
+func buildInfrastructure() {}
+
+//startDrones : creates drones in bulk
 func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []reality.Drone {
 	ds := make([]reality.Drone, 0)
 	for i := 0; i < c; i++ {

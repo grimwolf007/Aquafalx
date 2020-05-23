@@ -1,11 +1,6 @@
 package reality
 
-type resource struct {
-	id  int
-	num int
-}
-
-// ResCam : A Camera
+// ResCam : A camera
 const ResCam = 0
 
 // ResA2A : An air to air munition
