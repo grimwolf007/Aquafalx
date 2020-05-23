@@ -1,5 +1,7 @@
 package reality
 
+import "fmt"
+
 //DRONEISR : ISR Drone
 const DRONEISR = 0
 
@@ -11,6 +13,8 @@ const DRONEA2G = 2
 
 //DRONEHybrid : Hybrid A2A-A2G Drone
 const DRONEHybrid = 3
+
+var droneIDCount = 0
 
 // Payloads : maintains what payloads are on the Drone at a given time
 type Payloads struct {
@@ -47,6 +51,8 @@ func DroneBearingCreate(p int, y int, r int) DroneBearing {
 
 // Drone : structure to hold data for drones
 type Drone struct {
+	id       string
+	team     string
 	loca     DroneLocation
 	bear     DroneBearing
 	dtype    int
@@ -54,7 +60,6 @@ type Drone struct {
 	yaw      int
 	roll     int
 	payloads Payloads
-	team     string
 	maxSpeed int
 }
 
@@ -63,7 +68,8 @@ func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _
 	//check if team exists
 	//if location is nil use default for drone type
 	//if bearing is nill use middle of map
-	newDrone := Drone{loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
+	newDrone := Drone{id: fmt.Sprint(droneIDCount), loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
+	droneIDCount++
 	return newDrone
 }
 
@@ -71,3 +77,9 @@ func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _
 func teamCheck() {}
 
 //PayloadMapCreate : Creates a payload map based on Drone type adn
+
+//String : displays information about a drone object
+func (d Drone) String() string {
+	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team
+	return str
+}

@@ -6,13 +6,17 @@ import (
 )
 
 func main() {
+	count := 10
 	b := BoardCreate("Test1")
-	b.status()
 	l := reality.DroneLocationCreate(0, 0, 0)
 	teams := []reality.Team{reality.TeamCreate("Red")}
 	bear := reality.DroneBearingCreate(0, 0, 0)
-	drones := startDrones(10, bear, l, teams[0])
-	print(drones)
+	drones := startDrones(count, bear, l, teams[0])
+	for i := 0; i < len(drones); i++ {
+		println(drones[i].String())
+	}
+
+	b.status()
 }
 
 //Board : Contains each team
@@ -31,16 +35,16 @@ func BoardCreate(n string) Board {
 }
 
 func (b Board) status() {
-	time.Sleep(2 * time.Second)
 	t := time.Now()
 	elapsed := t.Sub(b.TimeStart)
 	println(elapsed)
 }
 
 func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []reality.Drone {
-	ds := make([]reality.Drone, c)
+	ds := make([]reality.Drone, 0)
 	for i := 0; i < c; i++ {
-		ds = append(ds, reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20))
+		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20)
+		ds = append(ds, newDrone)
 	}
 	return ds
 }
