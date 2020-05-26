@@ -82,8 +82,24 @@ func DroneCreate(l DroneLocation, b DroneBearing, droneType int, _team string, _
 //PayloadMapCreate : Creates a payload map based on Drone type [WIP]
 func PayloadMapCreate() {}
 
+//Type : returns the type of drone
+func (d Drone) Type() string {
+	switch d.dtype {
+	case DRONEA2A:
+		return "Air to Air"
+	case DRONEA2G:
+		return "Air to Ground"
+	case DRONEHybrid:
+		return "Hybrid"
+	case DRONEISR:
+		return "Recon"
+	default:
+		return "unknown"
+	}
+}
+
 //String : displays information about a drone object
 func (d Drone) String() string {
-	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team
+	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team + "\ttype: " + d.Type()
 	return str
 }

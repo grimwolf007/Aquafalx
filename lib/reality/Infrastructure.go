@@ -1,8 +1,12 @@
 package reality
 
 import (
+	"bufio"
 	"net"
+	"os"
 )
+
+var scanner bufio.Scanner
 
 //Infrastructure : Contains the information to connect infrastructure to physical computer
 type Infrastructure interface {
@@ -21,4 +25,21 @@ func IPv4Check(ipAddress string) bool {
 	}
 	// fmt.Printf("%v is a valid IPv4 address\n", testInput)
 	return true
+}
+
+//GetBaseName : gives default name to infrastructure
+func GetBaseName(scanner *bufio.Scanner) string {
+	scanner.Scan()
+	return scanner.Text()
+}
+
+//CreateBaseNameScanner : creates a scanner for the base random name file
+func CreateBaseNameScanner(path string) *bufio.Scanner {
+	_file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(_file)
+	scanner.Split(bufio.ScanLines)
+	return scanner
 }

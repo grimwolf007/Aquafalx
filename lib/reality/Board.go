@@ -27,4 +27,7 @@ func (b Board) Status() {
 }
 
 //teamCheck : checks if a team exists
-func teamCheck() {}
+func (b Board) teamCheck(t Team) bool {
+	_, found := b.Teams[t.name]
+	return found
+}
