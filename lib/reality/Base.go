@@ -2,6 +2,7 @@ package reality
 
 import (
 	"bufio"
+	"fmt"
 	"strconv"
 )
 
@@ -35,8 +36,7 @@ type Base struct {
 	baseType  int
 	ipAddress string
 	ipPort    int
-	xcoord    float32
-	ycoord    float32
+	loca      Location
 }
 
 //BaseCreate : creates a base
@@ -55,7 +55,7 @@ func BaseCreate(t Team, baseType int, ipAddress string, ipPort int, randomNameSc
 }
 
 // SetName : Sets the name of the base, returns true if changed
-func (b Base) SetName(n string) bool {
+func (b *Base) SetName(n string) bool {
 	if n != "" {
 		b.name = n
 		return true
@@ -104,6 +104,20 @@ func (b Base) IPPort() int {
 
 //String : formats the values of a base in the form of a string
 func (b Base) String() string {
-	var str = b.name + ": " + "\n\tIP Address: \t" + b.ipAddress + "\n\tIP Port: \t" + strconv.Itoa(b.ipPort) + "\n\tType: \t" + b.Type()
+	var str = b.name + ": " + "\n\tIP Address: \t" + b.ipAddress + "\n\tIP Port: \t" + strconv.Itoa(b.ipPort) + "\n\tType: \t" + b.Type() + "\n\tLocation: \t" + b.Location()
 	return str
+}
+
+//Location : returns location of base
+func (b Base) Location() string {
+	str := "x: " + fmt.Sprint(b.loca.x) + "\ty: " + fmt.Sprint(b.loca.y)
+	return str
+}
+
+//ChangeLocation : changes the location of a base
+func (b *Base) ChangeLocation(x float32, y float32) bool {
+	loca := LocationCreate(x, y)
+	//if out of bounds return false
+	b.loca = loca
+	return true
 }

@@ -14,6 +14,20 @@ type Infrastructure interface {
 	Type() string
 	IpAddress() string
 	IpPort() int
+	Location() string
+	ChangeLocation() bool
+}
+
+//Location : Stuct that contains the x and y coord of infrastructure
+type Location struct {
+	x float32
+	y float32
+}
+
+//LocationCreate : Creates an instance of a location
+func LocationCreate(x float32, y float32) Location {
+	loca := Location{x: x, y: y}
+	return loca
 }
 
 //IPv4Check : Checks if a string is a valid IPv4 address

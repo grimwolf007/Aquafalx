@@ -16,10 +16,17 @@ func main() {
 	addBases(teams[1], scanner)
 	bear := reality.DroneBearingCreate(0, 0, 0)
 	drones := startDrones(count, bear, l, teams[0])
+
+	basesTeam0 := teams[0].Bases()
+	base := basesTeam0["Hickory"]
+	base.ChangeLocation(5, 5)
+	// print base
+	println(base.String())
+	// print drones
 	for i := 0; i < len(drones); i++ {
 		println(drones[i].String())
 	}
-
+	// board status
 	b.Status()
 }
 
@@ -39,7 +46,6 @@ func addBases(t reality.Team, randomNameScanner *bufio.Scanner) reality.Team {
 	bases = append(bases, reality.BaseCreate(t, reality.BaseAIRSTRIP, "127.0.0.1", 9999, randomNameScanner))
 	for i := 0; i < len(bases); i++ {
 		t.AddBase(bases[i])
-		println(bases[i].String())
 	}
 	t.SetHQ(bases[0])
 	return t
