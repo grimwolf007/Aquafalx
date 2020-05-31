@@ -3,6 +3,7 @@ package reality
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"strconv"
 )
 
@@ -37,6 +38,7 @@ type Base struct {
 	ipAddress string
 	ipPort    int
 	loca      Location
+	drones    []*Drone
 }
 
 //BaseCreate : creates a base
@@ -104,7 +106,12 @@ func (b Base) IPPort() int {
 
 //String : formats the values of a base in the form of a string
 func (b Base) String() string {
+	c := 0
 	var str = b.name + ": " + "\n\tIP Address: \t" + b.ipAddress + "\n\tIP Port: \t" + strconv.Itoa(b.ipPort) + "\n\tType: \t" + b.Type() + "\n\tLocation: \t" + b.Location()
+	str = str + "\n\tDrones:"
+	for _, d := range b.drones {
+		str = str + "\n\t\t" + fmt.Sprint(c) + " [" + d.String() + "]"
+	}
 	return str
 }
 
@@ -120,4 +127,53 @@ func (b *Base) ChangeLocation(x float32, y float32) bool {
 	//if out of bounds return false
 	b.loca = loca
 	return true
+}
+
+func dist(b Base, d Drone) float32 {
+
+	x1 := d.loca.x
+	x2 := b.loca.x
+	y1 := d.loca.y
+	y2 := b.loca.y
+	z1 := d.loca.z
+	z2 := b.loca.z
+	dist := math.Pow((float64(x1-x2)), 2) + math.Pow((float64(y1-y2)), 2) + math.Pow((float64(z1-z2)), 2)
+	math.Sqrt(dist)
+	return float32(dist)
+}
+
+//AddDrone : Adds a drone to a base
+func (b *Base) AddDrone(d *Drone) bool {
+
+	dist := dist(*b, *d)
+	//println(fmt.Sprint(dist))
+	if dist < 4 {
+		b.drones = append(b.drones, d)
+		return true
+	}
+	return false
+}
+
+//Drones : displays the drones inside of the base
+func (b *Base) Drones() string {
+	var str string
+	for i, d := range b.drones {
+		str = str + "\n" + fmt.Sprint(i) + "\t" + d.String()
+	}
+	return str
+}
+
+//RemoveDrone : removes drone from base and places it just outside the base collision box
+func (b *Base) RemoveDrone(i int) *Drone {
+	if len(b.drones) > i {
+		d := b.drones[i]
+		copy(b.drones[i:], b.drones[i+1:])
+		b.drones[len(b.drones)-1] = nil
+		b.drones = b.drones[:len(b.drones)-1]
+		d.loca.x = b.loca.x + 1
+		d.loca.y = b.loca.y + 1
+		d.loca.z = 0
+		return d
+	}
+	return nil
 }

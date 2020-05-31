@@ -22,6 +22,7 @@ type Infrastructure interface {
 type Location struct {
 	x float32
 	y float32
+	z float32
 }
 
 //LocationCreate : Creates an instance of a location

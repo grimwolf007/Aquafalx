@@ -6,23 +6,57 @@ import (
 )
 
 func main() {
+	//for the random name gen
 	scanner := reality.CreateBaseNameScanner("/home/john/go/src/Aquafalx/lib/reality/BaseNames.txt")
 
-	count := 10
+	//creates the board
 	b := reality.BoardCreate("Test1")
-	l := reality.DroneLocationCreate(0, 0, 0)
+
+	//creates a location and bearings for drones
+	l := reality.DroneLocationCreate(4, 4, 0)
+	bear := reality.DroneBearingCreate(0, 0, 0)
+
+	//makes a team
 	teams := startTeams([]string{"Red", "Blue"})
+
+	//adds 2 bases
 	addBases(teams[0], scanner)
 	addBases(teams[1], scanner)
-	bear := reality.DroneBearingCreate(0, 0, 0)
+
+	//makes 10 drones
+	count := 10
 	drones := startDrones(count, bear, l, teams[0])
 
 	basesTeam0 := teams[0].Bases()
 	base := basesTeam0["Hickory"]
-	base.ChangeLocation(5, 5)
+
 	// print base
 	println(base.String())
+
+	//changes the location of the Hickory base
+	base.ChangeLocation(5, 5)
+	println(base.String())
+
 	// print drones
+	for i := 0; i < len(drones); i++ {
+		println(drones[i].String())
+	}
+
+	// add a drone to base
+	println("Drone added?")
+	println(base.AddDrone(drones[0]))
+	println(base.String())
+
+	// remove drone from base
+	println("drone removed?")
+	drone := base.RemoveDrone(0)
+	if drone == nil {
+		println("Drone not found")
+	} else {
+		println("Drone removed")
+		drones = append(drones, drone)
+	}
+	println(base.String())
 	for i := 0; i < len(drones); i++ {
 		println(drones[i].String())
 	}
@@ -55,11 +89,11 @@ func addBases(t reality.Team, randomNameScanner *bufio.Scanner) reality.Team {
 func buildInfrastructure() {}
 
 //startDrones : creates drones in bulk
-func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []reality.Drone {
-	ds := make([]reality.Drone, 0)
+func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []*reality.Drone {
+	ds := make([]*reality.Drone, 0)
 	for i := 0; i < c; i++ {
 		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20)
-		ds = append(ds, newDrone)
+		ds = append(ds, &newDrone)
 	}
 	return ds
 }

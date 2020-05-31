@@ -31,26 +31,26 @@ func CargoCreate(r int, f int, p map[string]int) Cargo {
 
 // DroneLocation : maintains drone coordinates
 type DroneLocation struct {
-	x int
-	y int
-	z int
+	x float32
+	y float32
+	z float32
 }
 
 // DroneLocationCreate : maintains drone coordinates
-func DroneLocationCreate(_x int, _y int, _z int) DroneLocation {
+func DroneLocationCreate(_x float32, _y float32, _z float32) DroneLocation {
 	d := DroneLocation{x: _x, y: _y, z: _z}
 	return d
 }
 
 // DroneBearing : Orientation of drone
 type DroneBearing struct {
-	pitch int
-	yaw   int
-	roll  int
+	pitch float32
+	yaw   float32
+	roll  float32
 }
 
 // DroneBearingCreate : Constructor of the bearing struct
-func DroneBearingCreate(p int, y int, r int) DroneBearing {
+func DroneBearingCreate(p float32, y float32, r float32) DroneBearing {
 	b := DroneBearing{pitch: p, yaw: y, roll: r}
 	return b
 }
@@ -101,5 +101,6 @@ func (d Drone) Type() string {
 //String : displays information about a drone object
 func (d Drone) String() string {
 	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team + "\ttype: " + d.Type()
+	str = str + "\tlocation:" + fmt.Sprint(d.loca.x) + "," + fmt.Sprint(d.loca.y) + "," + fmt.Sprint(d.loca.z)
 	return str
 }
