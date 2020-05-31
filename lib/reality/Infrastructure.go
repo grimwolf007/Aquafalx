@@ -2,6 +2,7 @@ package reality
 
 import (
 	"bufio"
+	"fmt"
 	"net"
 	"os"
 )
@@ -20,15 +21,28 @@ type Infrastructure interface {
 
 //Location : Stuct that contains the x and y coord of infrastructure
 type Location struct {
-	x float32
-	y float32
-	z float32
+	x float64
+	y float64
+	z float64
 }
 
 //LocationCreate : Creates an instance of a location
-func LocationCreate(x float32, y float32) Location {
-	loca := Location{x: x, y: y}
+func LocationCreate(x float64, y float64, z float64) Location {
+	loca := Location{x: x, y: y, z: z}
 	return loca
+}
+
+//Change : Change the location it is refering to
+func (l *Location) Change(x float64, y float64, z float64) {
+	l.x = x
+	l.y = y
+	l.z = z
+}
+func (l Location) String() string {
+	str := "x: " + fmt.Sprint(l.x)
+	str = str + ", y: " + fmt.Sprint(l.y)
+	str = str + ", z: " + fmt.Sprint(l.z)
+	return str
 }
 
 //IPv4Check : Checks if a string is a valid IPv4 address

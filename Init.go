@@ -3,9 +3,13 @@ package main
 import (
 	"Aquafalx/lib/reality"
 	"bufio"
+	"sync"
 )
 
 func main() {
+	//make a flight wait group
+	var flightWaitGroup sync.WaitGroup
+
 	//for the random name gen
 	scanner := reality.CreateBaseNameScanner("/home/john/go/src/Aquafalx/lib/reality/BaseNames.txt")
 
@@ -13,17 +17,19 @@ func main() {
 	b := reality.BoardCreate("Test1")
 
 	//creates a location and bearings for drones
-	l := reality.DroneLocationCreate(4, 4, 0)
-	bear := reality.DroneBearingCreate(0, 0, 0)
+	l := reality.LocationCreate(4, 4, 0)
+	bear := reality.BearingCreate(0, 0, 0)
 
 	//makes a team
 	teams := startTeams([]string{"Red", "Blue"})
 
 	//adds 2 bases
-	addBases(teams[0], scanner)
-	addBases(teams[1], scanner)
+	addBases(teams[0], scanner, l)
+	l.Change(8, 9, 0)
+	addBases(teams[1], scanner, l)
 
 	//makes 10 drones
+	l.Change(4, 4, 1)
 	count := 10
 	drones := startDrones(count, bear, l, teams[0])
 
@@ -60,6 +66,14 @@ func main() {
 	for i := 0; i < len(drones); i++ {
 		println(drones[i].String())
 	}
+
+	// fly drone
+	flightWaitGroup.Add(1)
+	l.Change(20, 20, 20)
+	println("flying to location: [" + l.String() + "] \n" + drone.String())
+	go drones[0].FlyTo(l, &flightWaitGroup)
+	go drones[1].FlyTo(l, &flightWaitGroup)
+	flightWaitGroup.Wait()
 	// board status
 	b.Status()
 }
@@ -75,9 +89,9 @@ func startTeams(teamNames []string) []reality.Team {
 }
 
 //addBases : adds bases to a team
-func addBases(t reality.Team, randomNameScanner *bufio.Scanner) reality.Team {
+func addBases(t reality.Team, randomNameScanner *bufio.Scanner, l reality.Location) reality.Team {
 	bases := make([]reality.Base, 0)
-	bases = append(bases, reality.BaseCreate(t, reality.BaseAIRSTRIP, "127.0.0.1", 9999, randomNameScanner))
+	bases = append(bases, reality.BaseCreate(t, reality.BaseAIRSTRIP, "127.0.0.1", 9999, randomNameScanner, l))
 	for i := 0; i < len(bases); i++ {
 		t.AddBase(bases[i])
 	}
@@ -89,7 +103,7 @@ func addBases(t reality.Team, randomNameScanner *bufio.Scanner) reality.Team {
 func buildInfrastructure() {}
 
 //startDrones : creates drones in bulk
-func startDrones(c int, b reality.DroneBearing, l reality.DroneLocation, t reality.Team) []*reality.Drone {
+func startDrones(c int, b reality.Bearing, l reality.Location, t reality.Team) []*reality.Drone {
 	ds := make([]*reality.Drone, 0)
 	for i := 0; i < c; i++ {
 		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20)
