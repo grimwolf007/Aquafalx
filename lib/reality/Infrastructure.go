@@ -32,12 +32,29 @@ func LocationCreate(x float64, y float64, z float64) Location {
 	return loca
 }
 
+//X : Getter for the locations X value
+func (l Location) X() float64 {
+	return l.x
+}
+
+//Y : Getter for the locations Y value
+func (l Location) Y() float64 {
+	return l.y
+}
+
+//Z : Getter for the locations Z value
+func (l Location) Z() float64 {
+	return l.z
+}
+
 //Change : Change the location it is refering to
 func (l *Location) Change(x float64, y float64, z float64) {
 	l.x = x
 	l.y = y
 	l.z = z
 }
+
+//String : returns the location as a string
 func (l Location) String() string {
 	str := "x: " + fmt.Sprint(l.x)
 	str = str + ", y: " + fmt.Sprint(l.y)
