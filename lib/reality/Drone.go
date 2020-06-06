@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+//================================================================Constants
+
 //DRONEISR : ISR Drone
 const DRONEISR = 0
 
@@ -19,7 +21,11 @@ const DRONEA2G = 2
 //DRONEHybrid : Hybrid A2A-A2G Drone
 const DRONEHybrid = 3
 
+//================================================================Variables
+
 var droneIDCount = 0
+
+//================================================================Structs
 
 // Cargo : maintains what are on the Drone at a given time
 type Cargo struct {
@@ -28,23 +34,11 @@ type Cargo struct {
 	payloads map[string]int
 }
 
-// CargoCreate : maintains drone cargo
-func CargoCreate(r int, f int, p map[string]int) Cargo {
-	c := Cargo{radar: r, fueltank: f, payloads: p}
-	return c
-}
-
 // Bearing : Orientation of drone
 type Bearing struct {
 	pitch float64
 	yaw   float64
 	roll  float64
-}
-
-// BearingCreate : Constructor of the bearing struct
-func BearingCreate(p float64, y float64, r float64) Bearing {
-	b := Bearing{pitch: p, yaw: y, roll: r}
-	return b
 }
 
 // Drone : structure to hold data for drones
@@ -62,18 +56,35 @@ type Drone struct {
 	flyLock  [1]bool
 }
 
+//================================================================Constructors
+
+// CargoCreate : maintains drone cargo
+func CargoCreate(r int, f int, p map[string]int) Cargo {
+	c := Cargo{radar: r, fueltank: f, payloads: p}
+	return c
+}
+
+// BearingCreate : Constructor of the bearing struct
+func BearingCreate(p float64, y float64, r float64) Bearing {
+	b := Bearing{pitch: p, yaw: y, roll: r}
+	return b
+}
+
 //DroneCreate : Creates a new Drone
-func DroneCreate(l Location, b Bearing, droneType int, _team string, _maxSpeed float64) Drone {
-	//check if team exists
+func DroneCreate(l Location, b Bearing, droneType int, t *Team, _maxSpeed float64) Drone {
+	//if team exists add to team
+	//else add to default team
 	//if location is nil use default for drone type
 	//if bearing is nill use middle of map
-	newDrone := Drone{id: fmt.Sprint(droneIDCount), loca: l, dtype: droneType, bear: b, team: _team, maxSpeed: _maxSpeed}
+	newDrone := Drone{id: fmt.Sprint(droneIDCount), loca: l, dtype: droneType, bear: b, maxSpeed: _maxSpeed}
 	droneIDCount++
 	return newDrone
 }
 
 //PayloadMapCreate : Creates a payload map based on Drone type [WIP]
 func PayloadMapCreate() {}
+
+//================================================================Getters
 
 //Type : returns the type of drone
 func (d Drone) Type() string {
@@ -90,6 +101,24 @@ func (d Drone) Type() string {
 		return "unknown"
 	}
 }
+
+//String : displays information about a drone object
+func (d Drone) String() string {
+	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team + "\ttype: " + d.Type()
+	str = str + "\tlocation:" + fmt.Sprint(d.loca.x) + "," + fmt.Sprint(d.loca.y) + "," + fmt.Sprint(d.loca.z)
+	return str
+}
+
+//locaEqual : Checks if a drones location is equal to the location specified
+func (d Drone) locaEqual(l Location) bool {
+	if d.loca.x == l.x && d.loca.y == l.y && d.loca.z == l.z {
+		return true
+	}
+	return false
+
+}
+
+//================================================================Setters
 
 // FlyTo : Drone flies directly to location, returns true if successful
 func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
@@ -123,7 +152,6 @@ func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
 		}
 		println(d.String())
 	}
-
 	//free flight lock
 	lock[0] = false
 	wg.Done()
@@ -131,19 +159,4 @@ func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
 		return true
 	}
 	return false
-}
-
-func (d Drone) locaEqual(l Location) bool {
-	if d.loca.x == l.x && d.loca.y == l.y && d.loca.z == l.z {
-		return true
-	}
-	return false
-
-}
-
-//String : displays information about a drone object
-func (d Drone) String() string {
-	str := "id: " + fmt.Sprint(d.id) + "\tteam: " + d.team + "\ttype: " + d.Type()
-	str = str + "\tlocation:" + fmt.Sprint(d.loca.x) + "," + fmt.Sprint(d.loca.y) + "," + fmt.Sprint(d.loca.z)
-	return str
 }
