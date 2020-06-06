@@ -1,5 +1,7 @@
 package reality
 
+import "fmt"
+
 //Team : Contains all the infrastructure information for each team
 type Team struct {
 	name   string
@@ -49,4 +51,16 @@ func (t *Team) AddDrone(h Drone) {
 // Drones : returns all bases on the team
 func (t Team) Drones() map[string]Drone {
 	return t.drones
+}
+
+func (t Team) String() string {
+	str := t.name
+
+	str = str + "\n Bases:"
+	str = str + "\n\t" + fmt.Sprint(t.Bases())
+
+	str = str + "\n Drones:"
+	str = str + "\n\t" + fmt.Sprint(t.Drones())
+
+	return str
 }
