@@ -137,7 +137,7 @@ func buildInfrastructure() {}
 func startDrones(c int, b reality.Bearing, l reality.Location, t *reality.Team) []*reality.Drone {
 	ds := make([]*reality.Drone, 0)
 	for i := 0; i < c; i++ {
-		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t, 20)
+		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, *t, 20)
 		ds = append(ds, &newDrone)
 	}
 	return ds

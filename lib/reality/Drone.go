@@ -71,13 +71,10 @@ func BearingCreate(p float64, y float64, r float64) Bearing {
 }
 
 //DroneCreate : Creates a new Drone
-func DroneCreate(l Location, b Bearing, droneType int, t *Team, _maxSpeed float64) Drone {
-	//if team exists add to team
-	//else add to default team
-	//if location is nil use default for drone type
-	//if bearing is nill use middle of map
-	newDrone := Drone{id: fmt.Sprint(droneIDCount), loca: l, dtype: droneType, bear: b, maxSpeed: _maxSpeed}
-	droneIDCount++
+func DroneCreate(l Location, b Bearing, droneType int, t Team, _maxSpeed float64) Drone {
+
+	newDrone := Drone{id: fmt.Sprint(t.DroneIDCount()), loca: l, dtype: droneType, bear: b, maxSpeed: _maxSpeed, team: t.Name()}
+	t.DroneIDInc()
 	return newDrone
 }
 

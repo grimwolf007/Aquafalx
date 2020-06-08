@@ -4,15 +4,16 @@ import "fmt"
 
 //Team : Contains all the infrastructure information for each team
 type Team struct {
-	name   string
-	hq     Base
-	bases  map[string]Base
-	drones map[string]Drone
+	name         string
+	hq           Base
+	droneIDCount int
+	bases        map[string]Base
+	drones       map[string]Drone
 }
 
 //TeamCreate : creates a new team and assets required
 func TeamCreate(n string) Team {
-	t := Team{name: n, bases: make(map[string]Base)}
+	t := Team{name: n, bases: make(map[string]Base), droneIDCount: 0}
 	return t
 }
 
@@ -53,6 +54,18 @@ func (t Team) Drones() map[string]Drone {
 	return t.drones
 }
 
+// DroneIDCount : returns the next drone id number for the team
+func (t Team) DroneIDCount() int {
+	return t.droneIDCount
+}
+
+// DroneIDInc : increments the Drone ID number for the team and returns it
+func (t *Team) DroneIDInc() int {
+	t.droneIDCount++
+	return t.droneIDCount
+}
+
+//String : returns the items of the team as a string
 func (t Team) String() string {
 	str := t.name
 
