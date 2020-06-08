@@ -122,6 +122,7 @@ func (d Drone) locaEqual(l Location) bool {
 
 // FlyTo : Drone flies directly to location, returns true if successful
 func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
+	wg.Add(1)
 	lock := d.flyLock
 	vec := make(map[string]float64)
 	var mag float64
@@ -130,6 +131,7 @@ func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
 	time.Sleep(100 * time.Millisecond)
 	lock[0] = true
 	//loop till at the final location
+	defer wg.Done()
 	for !d.locaEqual(l) && lock[0] == true {
 		//Find vector
 		vec["x"] = float64(l.x - d.loca.x)
@@ -151,10 +153,10 @@ func (d *Drone) FlyTo(l Location, wg *sync.WaitGroup) bool {
 			d.loca.z = d.loca.z + vec["z"]
 		}
 		println(d.String())
+		time.Sleep(1 * time.Second)
 	}
 	//free flight lock
 	lock[0] = false
-	wg.Done()
 	if d.locaEqual(l) {
 		return true
 	}

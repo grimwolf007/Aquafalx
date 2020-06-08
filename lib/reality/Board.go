@@ -20,10 +20,10 @@ func BoardCreate(n string) Board {
 }
 
 //Status : returns the time since the board was created
-func (b Board) Status() {
+func (b Board) Status() string {
 	t := time.Now()
 	elapsed := t.Sub(b.TimeStart)
-	println(elapsed)
+	return elapsed.String()
 }
 
 //teamCheck : checks if a team exists

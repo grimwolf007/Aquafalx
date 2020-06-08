@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"fmt"
 	"sync"
+	"time"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 
 	//for the random name gen
 	randomBaseNameFilePath := "/home/john/go/src/Aquafalx/lib/reality/BaseNames.txt"
-	println(info("Using " + fmt.Sprint(randomBaseNameFilePath) + "to generate random base names"))
+	println(info("Using " + fmt.Sprint(randomBaseNameFilePath) + " to generate random base names"))
 	scanner := reality.CreateBaseNameScanner(randomBaseNameFilePath)
 
 	//creates the board
@@ -25,7 +26,7 @@ func main() {
 	//creates a location and bearings for drones
 	println(info("Creating location pointer at 4,4,0"))
 	l := reality.LocationCreate(4, 4, 0)
-	println(info("Creating Bearing at 0,0,0"))
+	println(info("Creating Bearing to 0,0,0"))
 	bear := reality.BearingCreate(0, 0, 0)
 
 	//makes a team
@@ -35,15 +36,17 @@ func main() {
 	//adds 2 bases
 	//Red team
 	team := &teams[0]
-	println(info("adding a base to " + team.Name()))
-	redbases := addBases(team, scanner, l)
-
+	println(info("Adding a base to " + team.Name() + " Team"))
+	redbases := addBase(team, scanner, l)
+	println(redbases[0].String())
 	println(info("Changing location pointer to 8,9,0"))
 	l.Change(8, 9, 0)
+
 	//Blue team
 	team = &teams[1]
-	println(info("adding a base to " + team.Name()))
-	bluebases := addBases(team, scanner, l)
+	println(info("Adding a base to " + team.Name() + " Team"))
+	bluebases := addBase(team, scanner, l)
+	println(bluebases[0].String())
 
 	//makes 10 drones per team
 	team = &teams[0]
@@ -51,10 +54,13 @@ func main() {
 	println(info("putting 10 drones near the location: " + l.String()))
 	count := 10
 	drones := startDrones(count, bear, l, team)
+	// print drones
+	for i := 0; i < len(drones); i++ {
+		println(drones[i].String())
+	}
 
-	basesTeam0 := teams[0].Bases()
-	base := basesTeam0["hi"]
-
+	println(info("Moving Red Base from 4,4 to 5,5"))
+	base := redbases[0]
 	// print base
 	println(base.String())
 
@@ -62,24 +68,27 @@ func main() {
 	base.ChangeLocation(5, 5)
 	println(base.String())
 
+	println(info("adding drone to red base"))
 	// print drones
 	for i := 0; i < len(drones); i++ {
 		println(drones[i].String())
 	}
-
 	// add a drone to base
-	println("Drone added?")
-	println(base.AddDrone(drones[0]))
+	boo := base.AddDrone(drones[0])
+	if boo {
+		println(info(drones[0].String() + " was added to " + base.Name()))
+	} else {
+		println(fata("Drone was not added!"))
+	}
 	println(base.String())
 
 	// remove drone from base
-	println("drone removed?")
+	println(info("Removing Drone 0 from " + base.Name()))
 	drone := base.RemoveDrone(0)
 	if drone == nil {
-		println("Drone not found")
+		println(fata("Drone not found"))
 	} else {
-		println("Drone removed")
-		drones = append(drones, drone)
+		println(info("Drone 0 removed from " + base.Name()))
 	}
 	println(base.String())
 	for i := 0; i < len(drones); i++ {
@@ -87,14 +96,16 @@ func main() {
 	}
 
 	// fly drone
-	flightWaitGroup.Add(1)
+
 	l.Change(20, 20, 20)
-	println("flying to location: [" + l.String() + "] \n" + drone.String())
+	println(info("flying to location: [" + l.String() + "] with: \n" + drone.String()))
 	go drones[0].FlyTo(l, &flightWaitGroup)
 	go drones[1].FlyTo(l, &flightWaitGroup)
+	println(warn("There must be a 1 Millisecond delay before waiting for the wait command, so the fly function has time to start."))
+	time.Sleep(1 * time.Millisecond)
 	flightWaitGroup.Wait()
 	// board status
-	b.Status()
+	println(info(b.Status() + " since board has been created."))
 }
 
 //startTeams : creates the teams for the scenario
@@ -107,10 +118,11 @@ func startTeams(teamNames []string) []reality.Team {
 	return teams
 }
 
-//addBases : adds an airstrip to a team for testing purposes
-func addBases(t *reality.Team, randomNameScanner *bufio.Scanner, l reality.Location) []reality.Base {
+//addBase : adds an airstrip to a team for testing purposes
+func addBase(t *reality.Team, randomNameScanner *bufio.Scanner, l reality.Location) []reality.Base {
 	bases := make([]reality.Base, 0)
-	bases = append(bases, reality.BaseCreate(t, reality.BaseAIRSTRIP, "127.0.0.1", 9999, l, "", randomNameScanner))
+	randomNameScanner.Scan()
+	bases = append(bases, reality.BaseCreate(t, reality.BaseAIRSTRIP, "127.0.0.1", 9999, l, randomNameScanner.Text()))
 	for i := 0; i < len(bases); i++ {
 		t.AddBase(bases[i])
 	}
@@ -125,7 +137,7 @@ func buildInfrastructure() {}
 func startDrones(c int, b reality.Bearing, l reality.Location, t *reality.Team) []*reality.Drone {
 	ds := make([]*reality.Drone, 0)
 	for i := 0; i < c; i++ {
-		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t.Name(), 20)
+		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t, 20)
 		ds = append(ds, &newDrone)
 	}
 	return ds
