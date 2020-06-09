@@ -4,6 +4,7 @@ import (
 	"Aquafalx/lib/reality"
 	"bufio"
 	"fmt"
+	"os"
 	"sync"
 	"time"
 )
@@ -15,7 +16,8 @@ func main() {
 	var flightWaitGroup sync.WaitGroup
 
 	//for the random name gen
-	randomBaseNameFilePath := "/home/john/go/src/Aquafalx/lib/reality/BaseNames.txt"
+	pwd, _ := os.Getwd()
+	randomBaseNameFilePath := pwd + "/lib/reality/BaseNames.txt"
 	println(info("Using " + fmt.Sprint(randomBaseNameFilePath) + " to generate random base names"))
 	scanner := reality.CreateBaseNameScanner(randomBaseNameFilePath)
 
@@ -101,8 +103,12 @@ func main() {
 	println(info("flying to location: [" + l.String() + "] with: \n" + drone.String()))
 	go drones[0].FlyTo(l, &flightWaitGroup)
 	go drones[1].FlyTo(l, &flightWaitGroup)
-	println(warn("There must be a 1 Millisecond delay before waiting for the wait command, so the fly function has time to start."))
-	time.Sleep(1 * time.Millisecond)
+
+	var delay time.Duration
+	delay = 2
+	println(warn("There must be a " + fmt.Sprint(delay) + " delay before waiting, so the fly function has time to start."))
+	time.Sleep(delay * time.Millisecond)
+
 	flightWaitGroup.Wait()
 	// board status
 	println(info(b.Status() + " since board has been created."))
@@ -137,8 +143,8 @@ func buildInfrastructure() {}
 func startDrones(c int, b reality.Bearing, l reality.Location, t *reality.Team) []*reality.Drone {
 	ds := make([]*reality.Drone, 0)
 	for i := 0; i < c; i++ {
-		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, *t, 20)
-		ds = append(ds, &newDrone)
+		newDrone := reality.DroneCreate(l, b, reality.DRONEISR, t, 20)
+		ds = append(ds, newDrone)
 	}
 	return ds
 }

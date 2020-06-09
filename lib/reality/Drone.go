@@ -43,7 +43,7 @@ type Bearing struct {
 
 // Drone : structure to hold data for drones
 type Drone struct {
-	id       string
+	id       int
 	team     string
 	loca     Location
 	bear     Bearing
@@ -71,11 +71,13 @@ func BearingCreate(p float64, y float64, r float64) Bearing {
 }
 
 //DroneCreate : Creates a new Drone
-func DroneCreate(l Location, b Bearing, droneType int, t Team, _maxSpeed float64) Drone {
+func DroneCreate(l Location, b Bearing, droneType int, t *Team, _maxSpeed float64) *Drone {
 
-	newDrone := Drone{id: fmt.Sprint(t.DroneIDCount()), loca: l, dtype: droneType, bear: b, maxSpeed: _maxSpeed, team: t.Name()}
+	newDrone := Drone{id: t.DroneIDCount(), loca: l, dtype: droneType, bear: b, maxSpeed: _maxSpeed, team: t.Name()}
 	t.DroneIDInc()
-	return newDrone
+	t.AddDrone(&newDrone)
+	i := t.DroneIDCount() - 1
+	return t.Drones()[i]
 }
 
 //PayloadMapCreate : Creates a payload map based on Drone type [WIP]

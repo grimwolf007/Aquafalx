@@ -8,12 +8,12 @@ type Team struct {
 	hq           Base
 	droneIDCount int
 	bases        map[string]Base
-	drones       map[string]Drone
+	drones       map[int]*Drone
 }
 
 //TeamCreate : creates a new team and assets required
 func TeamCreate(n string) Team {
-	t := Team{name: n, bases: make(map[string]Base), droneIDCount: 0}
+	t := Team{name: n, bases: make(map[string]Base), drones: make(map[int]*Drone), droneIDCount: 0}
 	return t
 }
 
@@ -44,13 +44,13 @@ func (t *Team) SetHQ(h Base) {
 
 }
 
-// AddDrone : adds a base to a team
-func (t *Team) AddDrone(h Drone) {
+// AddDrone : adds a drone to a team
+func (t *Team) AddDrone(h *Drone) {
 	t.drones[h.id] = h
 }
 
-// Drones : returns all bases on the team
-func (t Team) Drones() map[string]Drone {
+// Drones : returns all drones on the team
+func (t Team) Drones() map[int]*Drone {
 	return t.drones
 }
 
