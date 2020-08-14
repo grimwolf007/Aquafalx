@@ -6,7 +6,7 @@ The goal is to make a game where all of the units are computers with randomized 
 \
 Table of Contents:\
     1. Installation\
-    2. Usage\
+    2. Usage
 
 Installation:\
     cd [PATH to Aquafalx]\
