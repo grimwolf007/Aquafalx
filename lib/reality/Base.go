@@ -6,30 +6,31 @@ import (
 	"strconv"
 )
 
+const(
 //BaseBUNKER : Where users "are"
-const BaseBUNKER = 0
+	BaseBUNKER = iota
 
 //BaseSAM : Ground based Anti-Air station
-const BaseSAM = 1
+	BaseSAM
 
 //BaseRADAR : Ground based Radar for unit detection
-const BaseRADAR = 2
+	BaseRADAR
 
 //BaseAIRSTRIP : Used to house and launch aircraft
-const BaseAIRSTRIP = 3
+	BaseAIRSTRIP
 
 //BaseFUELDEPOT : Used to store Fuel to transport to other bases
-const BaseFUELDEPOT = 4
+	BaseFUELDEPOT
 
 //BaseAMMODEPOT : Used to store ammunitions to transport to other bases
-const BaseAMMODEPOT = 5
+	BaseAMMODEPOT
 
 //BaseTRANSDEPOT : Used to store land vehicles for transporting resources and offense
-const BaseTRANSDEPOT = 6
+	BaseTRANSDEPOT
 
 //BasePORT : Used to store sea vehicles for transporting resources and offense
-const BasePORT = 7
-
+	BasePORT
+)
 // Base : Generic base type
 type Base struct {
 	name      string
@@ -69,25 +70,25 @@ func (b Base) Name() string {
 // Type : returns the type of the base
 func (b Base) Type() string {
 	switch b.baseType {
-	case 0:
+	case BaseBUNKER:
 		return "Bunker"
-	case 1:
+	case BaseSAM:
 		return "SAM"
-	case 2:
+	case BaseRADAR:
 		return "RADAR"
-	case 3:
+	case BaseAIRSTRIP:
 		return "Air Strip"
-	case 4:
+	case BaseFUELDEPOT:
 		return "Fuel Depot"
-	case 5:
+	case BaseAMMODEPOT:
 		return "Ammo Depot"
-	case 6:
+	case BaseTRANSDEPOT:
 		return "Transport Depot"
-	case 7:
+	case BasePORT:
 		return "Port"
 	default:
 	}
-	return "unknown"
+	return "MISSINGNO."
 }
 
 //IPAddress : returns the IP address of the base
