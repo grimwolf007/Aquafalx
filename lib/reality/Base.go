@@ -86,8 +86,8 @@ func (b Base) Type() string {
 	case 7:
 		return "Port"
 	default:
+		return "unknown"
 	}
-	return "unknown"
 }
 
 //IPAddress : returns the IP address of the base

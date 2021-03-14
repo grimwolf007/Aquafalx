@@ -1,6 +1,7 @@
 package reality
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"sync"
@@ -21,6 +22,9 @@ const DRONEA2G = 2
 //DRONEHybrid : Hybrid A2A-A2G Drone
 const DRONEHybrid = 3
 
+//DRONEGasConsumption : How much fuel is used per tick
+const DRONEGasConsumption = 1
+
 //================================================================Variables
 
 var droneIDCount = 0
@@ -31,6 +35,7 @@ var droneIDCount = 0
 type Cargo struct {
 	radar    int
 	fueltank int
+	fuel     int
 	payloads map[string]int
 }
 
@@ -58,10 +63,44 @@ type Drone struct {
 
 //================================================================Constructors
 
-// CargoCreate : maintains drone cargo
-func CargoCreate(r int, f int, p map[string]int) Cargo {
-	c := Cargo{radar: r, fueltank: f, payloads: p}
-	return c
+// Change : changes a drones cargo
+func (c *Cargo) Change(r int, f int, p map[string]int) {
+	c.radar = r
+	c.fueltank = f
+	c.fuel = c.fueltank * 100
+	c.payloads = p
+	return
+}
+
+// loadCargo : adds default cargo to drone on creation
+func (d *Drone) loadCargo(droneType int) error {
+	var r int
+	var f int
+	var p map[string]int
+
+	switch d.dtype {
+	case DRONEISR:
+		r = 1
+		f = 1
+		p = nil
+	case DRONEA2A:
+		r = 1
+		f = 1
+		p = nil
+	case DRONEA2G:
+		r = 1
+		f = 1
+		p = nil
+	case DRONEHybrid:
+		r = 1
+		f = 1
+		p = nil
+	default:
+		err := errors.New("Unknown Drone Type")
+		return err
+	}
+	d.cargo = Cargo{radar: r, fueltank: f, payloads: p}
+	return nil
 }
 
 // BearingCreate : Constructor of the bearing struct

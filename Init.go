@@ -98,7 +98,7 @@ func main() {
 	}
 
 	// fly drone
-
+	tmp := time.Now()
 	l.Change(20, 20, 20)
 	println(info("flying to location: [" + l.String() + "] with: \n" + drone.String()))
 	go drones[0].FlyTo(l, &flightWaitGroup)
@@ -110,6 +110,8 @@ func main() {
 	time.Sleep(delay * time.Millisecond)
 
 	flightWaitGroup.Wait()
+	println(info(fmt.Sprint((time.Now()).Sub(tmp))))
+
 	// board status
 	println(info(b.Status() + " since board has been created."))
 }
