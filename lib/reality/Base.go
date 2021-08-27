@@ -89,10 +89,6 @@ func (b Base) Type() string {
 	default:
 		return "unknown"
 	}
-<<<<<<< HEAD
-=======
-	return "MISSINGNO."
->>>>>>> 60d203c7ebfff56856a47bbdf9a246388b12eced
 }
 
 //IPAddress : returns the IP address of the base

@@ -1,0 +1,69 @@
+# Global
+You have a journal to keep track of what you learned
+You work as IT and a software engineer (complete programming competitions / configure servers correctly to earn money)
+
+# 01 School (The tutorial/sandbox)
+You and some friends leave micro computers in random places at school to maintain access
+  you can always come back here to try almost anything out with help from your friends
+
+You learn to do basic hacky stuff from friends at school.
+  How to get around the internet restrictions
+  How to deauth a wifi user
+  How to man in the middle
+
+You make your first drone with the school 3d Printer
+
+You phish your teacher with a kiddie coded microsoft word payload which allows you to swipe the teacher network credentials
+You now have access to your teachers computer
+  You learn more about traversal
+  A nark tells on you
+  You get suspended, and the teacher gets a new computer.
+
+# 02 Home
+You can meet up with friends at night to test your drones, learn social engineering, learn Open Source Inteligence Gathering
+You can add security measures to your home to prevent attacks
+
+While you are suspended you decide to invade on the privacy of your hacking buddies via your drone
+You learn that the person you hung out with most is now in the Hospital so you start some snooping
+snoop:
+  Turn on laptop with drone
+    Different tools he is working on
+  Parents phone/computer
+    maps
+      Which Hospital
+      Where they routinely go
+    messenger app
+      Why he is there? (It isn't really why he is there)
+      What they are saying to eachother
+    phone
+      Numbers they have recently dialed
+    games
+    browser
+      browser history
+      proxy server
+    fitness app
+    photos
+    clock
+    banking
+    webcam
+    email
+    tax docs
+
+# 03 Hospital
+In doing a google search you find a vulnerable webapp
+You gain access to the employee portal using dumped creds
+You gain Arbitrary Code Execution and can setup a pivot in the DMZ
+You find a way to contact him using your drone
+You watch people jabbing him with needles
+
+# 04 IT for governmet archives (open world)
+You can still use the school, some of your friends are in collage so you can use better machines for the drone, and can do some basic class work if you want
+You now get coding and server config challenges as part of your job
+
+You can hold the world for ransom
+You can fight corruption
+You can swing votes
+You can help fight a war against (or with) a rival nation
+
+# Notes
+  you can import STLs to Unity
